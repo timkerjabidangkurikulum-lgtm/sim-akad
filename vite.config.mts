@@ -5,7 +5,7 @@ export default defineConfig(({ mode }) => ({
   // Web deploy: https://man1banggai.sch.id/sim_akad/
   // Android (Capacitor): gunakan base relatif supaya asset bisa dibaca dari file://android_asset/
   // XAMPP (lokal): pakai base relatif supaya bisa dibuka dari http://localhost/SIM_AKAD/dist/
-  base: mode === 'capacitor' || mode === 'xampp' ? './' : '/sim_akad/',
+  base: '/',
   server: {
     proxy: {
       // Dev only: forward PHP API requests to Apache (XAMPP)
