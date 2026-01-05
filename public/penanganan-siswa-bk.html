@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Penanganan Siswa Terpadu - MAN Banggai</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background-color: #f1f5f9; /* Slate 100 */
+            color: #1e293b;
+        }
+        .serif-font {
+            font-family: 'Noto Serif', serif;
+        }
+        .paper-shadow {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Document Preview Container */
+        .doc-container {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            padding: 20mm;
+            margin: auto;
+            position: relative;
+            font-size: 11pt;
+            line-height: 1.5;
+            color: black;
+            font-family: 'Times New Roman', serif; /* Standard Dinas Font */
+        }
+
+        /* Kop Surat Styling - Stable layout (no overlap) */
+        .kop-header {
+            border-bottom: 4px double black;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .kop-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .kop-table td {
+            border: none;
+            padding: 0;
+            vertical-align: middle;
+        }
+        .kop-col-logo {
+            width: 75px;
+        }
+        .kop-col-spacer {
+            width: 75px;
+        }
+        .kop-logo {
+            display: block;
+            width: 68px;
+            height: 68px;
+            object-fit: contain;
+        }
+        .kop-text {
+            text-align: center;
+        }
+
+        /* Print Specifics - CRITICAL for PDF Generation */
+        @media print {
+            @page {
+                size: A4;
+                margin: 0;
+            }
+            body {
+                background: white;
+            }
+            body * {
+                visibility: hidden;
+            }
+            #document-preview-wrapper, #document-preview-wrapper * {
+                visibility: visible;
+            }
+            #document-preview-wrapper {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                transform: scale(1) !important;
+            }
+            .doc-container {
+                margin: 0;
+                box-shadow: none;
+                width: 100%;
+                /* Ensures background colors print */
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800">
+
+    <!-- Navbar -->
+    <nav class="bg-emerald-900 text-white shadow-lg sticky top-0 z-50 no-print border-b-4 border-yellow-500">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white text-emerald-900 p-1.5 rounded font-bold text-xs border border-yellow-500">MAN</div>
+                <span class="text-xl font-bold tracking-tight">Sistem Penanganan Siswa & BK</span>
+            </div>
+            <div class="text-xs bg-emerald-800 px-3 py-1 rounded-full border border-emerald-700">
+                Versi 4.1 (Logo Update)
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8 max-w-7xl">
+
+        <!-- Matriks Keputusan (SOP Singkat) -->
+        <section class="mb-8 no-print">
+            <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-600">
+                <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                    <span class="bg-blue-100 text-blue-700 p-1 rounded mr-2">ℹ️</span>
+                    Panduan Matriks Penanganan (SOP BK)
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
+                    <div class="bg-slate-50 p-4 rounded border border-slate-200">
+                        <div class="font-bold text-red-600 mb-2">KASUS A: Indisipliner Aktif</div>
+                        <p class="mb-2">Siswa melanggar aturan kehadiran namun aktif di organisasi/ekskul.</p>
+                        <div class="bg-white p-2 border rounded text-center font-bold text-slate-700 text-xs">
+                            Gunakan: KONTRAK EKSKUL
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded border border-slate-200">
+                        <div class="font-bold text-orange-600 mb-2">KASUS B: Monitoring Harian</div>
+                        <p class="mb-2">Siswa dalam masa pembinaan intensif pasca pelanggaran.</p>
+                        <div class="bg-white p-2 border rounded text-center font-bold text-slate-700 text-xs">
+                            Gunakan: KARTU KENDALI
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded border border-slate-200">
+                        <div class="font-bold text-purple-600 mb-2">KASUS C: Siswa Pasif</div>
+                        <p class="mb-2">Siswa menarik diri, sering absen, motivasi rendah.</p>
+                        <div class="bg-white p-2 border rounded text-center font-bold text-slate-700 text-xs">
+                            Gunakan: INSTRUMEN DIAGNOSTIK
+                        </div>
+                    </div>
+                     <div class="bg-slate-50 p-4 rounded border border-slate-200">
+                        <div class="font-bold text-emerald-600 mb-2">KASUS D: Kontrol Pelatih</div>
+                        <p class="mb-2">Jurnal kegiatan dan absensi latihan ekstrakurikuler.</p>
+                        <div class="bg-white p-2 border rounded text-center font-bold text-slate-700 text-xs">
+                            Gunakan: JURNAL EKSKUL
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- LEFT PANEL: INPUT & CONTROLS (4 Columns) -->
+            <div class="lg:col-span-4 space-y-6 no-print">
+                
+                <!-- Tab Navigation -->
+                <div class="bg-white rounded-lg shadow-sm p-2 flex flex-col gap-2">
+                    <button onclick="switchTab('contract')" id="btn-contract" class="text-left px-4 py-3 rounded-md font-bold transition-all border-l-4">
+                        1. Kontrak Komitmen (Ekskul)
+                    </button>
+                    <button onclick="switchTab('card')" id="btn-card" class="text-left px-4 py-3 rounded-md font-bold transition-all border-l-4">
+                        2. Kartu Kendali Harian
+                    </button>
+                    <button onclick="switchTab('passive')" id="btn-passive" class="text-left px-4 py-3 rounded-md font-bold transition-all border-l-4">
+                        3. Instrumen Diagnostik (BK)
+                    </button>
+                    <button onclick="switchTab('coach')" id="btn-coach" class="text-left px-4 py-3 rounded-md font-bold transition-all border-l-4">
+                        4. Presensi Ekskul (Guru/Pelatih)
+                    </button>
+                </div>
+
+                <!-- Input Forms -->
+                <div id="input-container" class="bg-white rounded-lg shadow-md p-6 border border-slate-200">
+                    
+                    <!-- Form 1: Contract -->
+                    <div id="form-contract" class="space-y-4">
+                        <h3 class="font-bold text-emerald-800 border-b pb-2">Data Pelanggaran Siswa</h3>
+                        <div>
+                            <label class="text-xs font-bold uppercase text-slate-500">Nama Siswa</label>
+                            <input type="text" id="c-name" oninput="renderContract()" class="w-full p-2 border rounded focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="Ahmad Fulan">
+                        </div>
+                         <div>
+                            <label class="text-xs font-bold uppercase text-slate-500">NIS / NISN</label>
+                            <input type="text" id="c-nis" oninput="renderContract()" class="w-full p-2 border rounded outline-none" placeholder="1234567890">
+                        </div>
+                         <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="text-xs font-bold uppercase text-slate-500">Kelas</label>
+                                <input type="text" id="c-class" oninput="renderContract()" class="w-full p-2 border rounded outline-none" placeholder="XI IPA 2">
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold uppercase text-slate-500">Total Alpa</label>
+                                <input type="number" id="c-alpa" oninput="renderContract()" class="w-full p-2 border rounded outline-none" placeholder="5">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold uppercase text-slate-500">Nama Ekskul</label>
+                            <input type="text" id="c-ekskul" oninput="renderContract()" class="w-full p-2 border rounded outline-none" placeholder="Futsal / Pramuka">
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold uppercase text-slate-500">Nama Orang Tua</label>
+                            <input type="text" id="c-parent" oninput="renderContract()" class="w-full p-2 border rounded outline-none" placeholder="Bpk. Abdullah">
+                        </div>
+                    </div>
+
+                    <!-- Form 2: Card -->
+                    <div id="form-card" class="space-y-4 hidden">
+                        <h3 class="font-bold text-emerald-800 border-b pb-2">Simulasi Kehadiran</h3>
+                        <div class="bg-yellow-50 p-2 text-xs text-yellow-800 rounded mb-2">
+                            Klik status kehadiran per hari untuk melihat efeknya pada izin latihan.
+                        </div>
+                        <div class="space-y-2" id="card-days-input">
+                            <!-- JS Generated Days -->
+                        </div>
+                    </div>
+
+                    <!-- Form 3: Passive (Updated for Expert Analysis) -->
+                    <div id="form-passive" class="space-y-4 hidden">
+                        <h3 class="font-bold text-red-800 border-b pb-2">Asesmen Bimbingan Konseling</h3>
+                        <div>
+                            <label class="text-xs font-bold uppercase text-slate-500">Nama Siswa</label>
+                            <input type="text" id="p-name" oninput="renderPassive()" class="w-full p-2 border rounded outline-none" placeholder="Siswa Bermasalah">
+                        </div>
+                         <div>
+                            <label class="text-xs font-bold uppercase text-slate-500">NIS / NISN</label>
+                            <input type="text" id="p-nis" oninput="renderPassive()" class="w-full p-2 border rounded outline-none" placeholder="1234567890">
+                        </div>
+                         <div>
+                            <label class="text-xs font-bold uppercase text-slate-500">Kelas</label>
+                            <input type="text" id="p-class" oninput="renderPassive()" class="w-full p-2 border rounded outline-none" placeholder="X IPS 1">
+                        </div>
+                        
+                        <!-- Internal Factors -->
+                        <div class="bg-slate-50 p-3 rounded border">
+                            <label class="text-xs font-bold uppercase text-blue-700 block mb-2">A. Faktor Internal</label>
+                            <div class="space-y-2 text-sm">
+                                <label class="flex items-center"><input type="checkbox" class="p-check mr-2" value="Motivasi Belajar Rendah" onchange="renderPassive()"> Motivasi Rendah</label>
+                                <label class="flex items-center"><input type="checkbox" class="p-check mr-2" value="Kesehatan Fisik/Sering Sakit" onchange="renderPassive()"> Kesehatan Fisik</label>
+                                <label class="flex items-center"><input type="checkbox" class="p-check mr-2" value="Kesulitan Memahami Pelajaran" onchange="renderPassive()"> Kesulitan Belajar</label>
+                            </div>
+                        </div>
+
+                        <!-- External Factors -->
+                        <div class="bg-slate-50 p-3 rounded border">
+                            <label class="text-xs font-bold uppercase text-orange-700 block mb-2">B. Faktor Eksternal</label>
+                            <div class="space-y-2 text-sm">
+                                <label class="flex items-center"><input type="checkbox" class="p-check mr-2" value="Disharmoni Keluarga (Broken Home)" onchange="renderPassive()"> Keluarga (Disharmoni)</label>
+                                <label class="flex items-center"><input type="checkbox" class="p-check mr-2" value="Kendala Ekonomi/Transportasi" onchange="renderPassive()"> Ekonomi/Transport</label>
+                                <label class="flex items-center"><input type="checkbox" class="p-check mr-2" value="Pengaruh Teman Sebaya/Pergaulan" onchange="renderPassive()"> Pergaulan Negatif</label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold uppercase text-slate-500">Rencana Durasi</label>
+                            <select id="p-duration" onchange="renderPassive()" class="w-full p-2 border rounded">
+                                <option value="2">2 Minggu (Pemantauan Awal)</option>
+                                <option value="4">4 Minggu (Intensif)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Form 4: Coach (NEW) -->
+                    <div id="form-coach" class="space-y-4 hidden">
+                        <h3 class="font-bold text-emerald-800 border-b pb-2">Kontrol Guru/Pelatih Ekskul</h3>
+                        <div>
+                            <label class="text-xs font-bold uppercase text-slate-500">Nama Ekstrakurikuler</label>
+                            <input type="text" id="co-ekskul" oninput="renderCoach()" class="w-full p-2 border rounded outline-none" placeholder="Pramuka / Voli">
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold uppercase text-slate-500">Hari / Tanggal Latihan</label>
+                            <input type="text" id="co-date" oninput="renderCoach()" class="w-full p-2 border rounded outline-none" placeholder="Jumat, 20 Maret 2025">
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold uppercase text-slate-500">Materi / Kegiatan</label>
+                            <textarea id="co-materi" oninput="renderCoach()" class="w-full p-2 border rounded outline-none" rows="2" placeholder="Latihan fisik dan strategi..."></textarea>
+                        </div>
+                        
+                        <div class="bg-emerald-50 p-3 rounded border">
+                            <p class="text-xs font-bold text-emerald-800 mb-2">SIMULASI ABSENSI SISWA</p>
+                            <p class="text-xs text-slate-600 mb-2">Masukkan 5 nama siswa untuk contoh daftar hadir:</p>
+                            <div class="space-y-2">
+                                <input type="text" class="co-student-input w-full p-1 border rounded text-sm" placeholder="Siswa 1" oninput="renderCoach()">
+                                <input type="text" class="co-student-input w-full p-1 border rounded text-sm" placeholder="Siswa 2" oninput="renderCoach()">
+                                <input type="text" class="co-student-input w-full p-1 border rounded text-sm" placeholder="Siswa 3" oninput="renderCoach()">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="exportToWord()" class="bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold shadow flex items-center justify-center transition">
+                        <span class="mr-2">📄</span> Download Word
+                    </button>
+                    <button onclick="window.print()" class="bg-slate-700 hover:bg-slate-800 text-white py-3 rounded-lg font-bold shadow flex items-center justify-center transition">
+                        <span class="mr-2">🖨️</span> Download PDF
+                    </button>
+                </div>
+                 <p class="text-xs text-center text-slate-500 mt-2">
+                    *Untuk hasil PDF terbaik: Aktifkan "Background graphics" di menu print.
+                </p>
+
+            </div>
+
+            <!-- RIGHT PANEL: DOCUMENT PREVIEW (8 Columns) -->
+            <div class="lg:col-span-8 bg-slate-200 p-8 rounded-lg flex justify-center overflow-auto relative">
+                
+                <!-- This wrapper is what gets printed -->
+                <div id="document-preview-wrapper">
+                    
+                    <!-- THE PAPER -->
+                    <div id="paper-content" class="doc-container paper-shadow">
+                        
+                        <!-- Header (Kop Surat) - Table layout to avoid overlap -->
+                        <div class="kop-header">
+                            <table class="kop-table">
+                                <tr>
+                                    <td class="kop-col-logo">
+                                        <!-- Logo Kemenag (URL absolut untuk kompatibilitas iframe) -->
+                                        <img
+                                            src="https://man1banggai.sch.id/sim_akad/logo-kemenag.png"
+                                            alt="Logo Kemenag"
+                                            class="kop-logo"
+                                            width="68"
+                                            height="68"
+                                            style="width:68px;height:68px;display:block;"
+                                        >
+                                    </td>
+                                    <td>
+                                        <div class="kop-text">
+                                            <h3 style="margin:0; font-weight:bold; letter-spacing:0.18em; text-transform:uppercase; font-size:11pt;">Kementerian Agama Republik Indonesia</h3>
+                                            <h1 style="margin:2px 0 0; font-weight:bold; letter-spacing:0.08em; text-transform:uppercase; font-size:18pt;">MADRASAH ALIYAH NEGERI BANGGAI</h1>
+                                            <p style="margin:6px 0 0; font-style:italic; font-size:11pt;">Jl. Pulau Irian RT 004 RW. 006 Kel. Kompo, Kec. Luwuk Selatan</p>
+                                            <p style="margin:2px 0 0; font-size:10pt;">Website: manbanggai.sch.id | Email: admin@manbanggai.sch.id</p>
+                                        </div>
+                                    </td>
+                                    <td class="kop-col-spacer"></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- DYNAMIC CONTENT AREA -->
+                        <div id="doc-body">
+                            <!-- Content injected by JS based on active tab -->
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // --- DATA & STATE ---
+        const state = {
+            activeTab: 'contract', 
+            contract: { name: '', nis: '', class: '', alpa: '', ekskul: '', parent: '' },
+            passive: { name: '', nis: '', class: '', causes: [], duration: '2' },
+            card: {
+                days: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
+                status: ['Hadir', 'Hadir', 'Hadir', 'Hadir', 'Hadir', 'Hadir']
+            },
+            coach: { ekskul: '', date: '', materi: '', students: [] }
+        };
+
+        // --- INIT ---
+        function init() {
+            renderCardInputs();
+            renderContract(); // Default view
+        }
+
+        // --- RENDER INPUTS ---
+        function renderCardInputs() {
+            const container = document.getElementById('card-days-input');
+            container.innerHTML = '';
+            state.card.days.forEach((day, idx) => {
+                container.innerHTML += `
+                    <div class="flex items-center justify-between bg-slate-50 p-2 rounded border">
+                        <span class="font-bold text-sm w-20">${day}</span>
+                        <div class="flex gap-4">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="d-${idx}" value="Hadir" checked onchange="updateCardStatus(${idx}, 'Hadir')" class="mr-1 accent-emerald-600">
+                                <span class="text-sm">Hadir</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="d-${idx}" value="Alpa" onchange="updateCardStatus(${idx}, 'Alpa')" class="mr-1 accent-red-600">
+                                <span class="text-sm text-red-600 font-bold">Alpa</span>
+                            </label>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function updateCardStatus(idx, status) {
+            state.card.status[idx] = status;
+            renderCard();
+        }
+
+        // --- TAB SWITCHING ---
+        function switchTab(tab) {
+            state.activeTab = tab;
+            
+            // UI Classes
+            ['contract', 'card', 'passive', 'coach'].forEach(t => {
+                const btn = document.getElementById(`btn-${t}`);
+                const form = document.getElementById(`form-${t}`);
+                
+                if (t === tab) {
+                    btn.classList.add('bg-emerald-50', 'text-emerald-700', 'border-emerald-600');
+                    btn.classList.remove('text-slate-500', 'border-transparent');
+                    form.classList.remove('hidden');
+                } else {
+                    btn.classList.remove('bg-emerald-50', 'text-emerald-700', 'border-emerald-600');
+                    btn.classList.add('text-slate-500', 'border-transparent');
+                    form.classList.add('hidden');
+                }
+            });
+
+            // Trigger Render
+            if (tab === 'contract') renderContract();
+            if (tab === 'card') renderCard();
+            if (tab === 'passive') renderPassive();
+            if (tab === 'coach') renderCoach();
+        }
+
+        // --- DOC RENDERERS ---
+        
+        // 1. CONTRACT RENDERER
+        function renderContract() {
+            // Get values
+            state.contract.name = document.getElementById('c-name').value || "..........................";
+            state.contract.nis = document.getElementById('c-nis').value || "..........";
+            state.contract.class = document.getElementById('c-class').value || "..........";
+            state.contract.alpa = document.getElementById('c-alpa').value || "0";
+            state.contract.ekskul = document.getElementById('c-ekskul').value || "..........................";
+            state.contract.parent = document.getElementById('c-parent').value || "..........................";
+
+            const html = `
+                <div style="text-align:center; margin-bottom:24px;">
+                    <h2 style="margin:0; font-weight:bold; text-decoration:underline; font-size:14pt;">SURAT PERJANJIAN KOMITMEN SISWA</h2>
+                    <p style="margin:4px 0 0;">Nomor: BK/Disiplin/001/${new Date().getFullYear()}</p>
+                </div>
+
+                <div style="margin-bottom: 15px; text-align: justify;">
+                    <b>Mengingat:</b> Tata Tertib Peserta Didik MAN Banggai Tahun Pelajaran Berjalan tentang Kedisiplinan dan Kehadiran Siswa.<br>
+                    <b>Menimbang:</b> Laporan kehadiran dan evaluasi akademik siswa yang bersangkutan.
+                </div>
+
+                <p style="margin:0 0 8px; text-align:justify;">
+                    Yang bertanda tangan di bawah ini:
+                </p>
+
+                <table style="width:100%; margin-bottom:16px; border:none;">
+                    <tr><td style="width:150px; padding:2px;">Nama Siswa</td><td>: <b>${state.contract.name}</b></td></tr>
+                    <tr><td style="padding:2px;">NIS / NISN</td><td>: ${state.contract.nis}</td></tr>
+                    <tr><td style="padding:2px;">Kelas</td><td>: ${state.contract.class}</td></tr>
+                    <tr><td style="padding:2px;">Anggota Ekskul</td><td>: ${state.contract.ekskul}</td></tr>
+                    <tr><td style="padding:2px;">Nama Orang Tua</td><td>: ${state.contract.parent}</td></tr>
+                </table>
+
+                <p style="margin:0 0 16px; text-align:justify;">
+                    Dengan ini mengakui bahwa saya telah melakukan pelanggaran disiplin berupa ketidakhadiran (Alpa) sebanyak <b style="color:red">${state.contract.alpa} hari</b>. 
+                    Saya menyadari hal ini melanggar Tata Tertib Madrasah dan menghambat proses belajar saya.
+                </p>
+
+                <p style="margin:0 0 16px; text-align:justify;">
+                    Sebagai bentuk tanggung jawab, saya berjanji menyepakati <b>KONTRAK BELAJAR</b> sebagai berikut:
+                </p>
+
+                <div style="border: 1px solid black; padding: 15px; margin-bottom: 20px; background-color: #fafafa;">
+                    <ol style="margin-left: 20px; list-style-type: decimal;">
+                        <li style="margin-bottom:8px;"><b>Komitmen Kehadiran:</b> Saya akan hadir mengikuti Kegiatan Belajar Mengajar (KBM) setiap hari (100%) mulai hari ini hingga akhir semester.</li>
+                        <li style="margin-bottom:8px;"><b>Konsekuensi Edukatif (Ekskul):</b> Saya bersedia menerima konsekuensi berupa <u>PEMBEKUAN (SKORSING)</u> sementara dari kegiatan Ekskul <b>${state.contract.ekskul}</b> apabila saya melakukan 1 (satu) kali Alpa lagi tanpa keterangan.</li>
+                        <li><b>Tindak Lanjut:</b> Jika saya melanggar perjanjian ini, saya siap dikembalikan pembinaannya kepada Orang Tua sesuai mekanisme madrasah.</li>
+                    </ol>
+                </div>
+
+                <p style="margin:0 0 32px;">Demikian surat perjanjian ini saya buat dengan kesadaran penuh tanpa paksaan.</p>
+
+                <table style="width:100%; margin-top:18px; text-align:center; border:none; border-collapse:collapse;">
+                    <tr>
+                        <td style="width:25%; border:none; padding:0;">
+                            <p style="margin:0;">Menyetujui,<br>Orang Tua Siswa</p>
+                            <p style="margin:0; line-height:22pt; mso-line-height-rule:exactly;">&nbsp;</p>
+                            <p style="margin:0; border-top: 1px solid black; padding-top: 5px;">(${state.contract.parent})</p>
+                        </td>
+                        <td style="width:25%; border:none; padding:0;">
+                            <p style="margin:0;">Mengetahui,<br>Guru BK / Konselor</p>
+                            <p style="margin:0; line-height:22pt; mso-line-height-rule:exactly;">&nbsp;</p>
+                            <p style="margin:0; border-top: 1px solid black; padding-top: 5px;">( .......................... )</p>
+                        </td>
+                        <td style="width:25%; border:none; padding:0;">
+                            <p style="margin:0;">Saksi,<br>Pembina Ekskul</p>
+                            <p style="margin:0; line-height:22pt; mso-line-height-rule:exactly;">&nbsp;</p>
+                            <p style="margin:0; border-top: 1px solid black; padding-top: 5px;">( .......................... )</p>
+                        </td>
+                        <td style="width:25%; border:none; padding:0;">
+                            <p style="margin:0;">Banggai, ${new Date().toLocaleDateString('id-ID')}<br>Siswa</p>
+                            <p style="margin:0; line-height:22pt; mso-line-height-rule:exactly;">&nbsp;</p>
+                            <p style="margin:0; border-top: 1px solid black; padding-top: 5px;">(${state.contract.name})</p>
+                        </td>
+                    </tr>
+                </table>
+            `;
+            document.getElementById('doc-body').innerHTML = html;
+        }
+
+        // 2. CARD RENDERER
+        function renderCard() {
+            const hasAlpa = state.card.status.includes('Alpa');
+            const decisionHTML = hasAlpa 
+                ? `<div style="border:2px solid red; color:red; padding:10px; text-align:center; font-weight:bold; background:#fff0f0;">PERLU PEMBINAAN LANJUTAN<br><span style="font-size:10pt; font-weight:normal; color:black;">Tidak Diizinkan Mengikuti Kegiatan Ekskul</span></div>`
+                : `<div style="border:2px solid green; color:green; padding:10px; text-align:center; font-weight:bold; background:#f0fff4;">DIIZINKAN BERAKTIVITAS<br><span style="font-size:10pt; font-weight:normal; color:black;">Kehadiran Baik & Tertib</span></div>`;
+
+            let rows = '';
+            state.card.days.forEach((day, idx) => {
+                const stat = state.card.status[idx];
+                const color = stat === 'Alpa' ? 'red' : 'black';
+                rows += `
+                    <tr>
+                        <td style="border:1px solid black; padding:5px; text-align:center;">${day}</td>
+                        <td style="border:1px solid black; padding:5px; text-align:center; color:${color}; font-weight:${stat==='Alpa'?'bold':'normal'}">${stat}</td>
+                        <td style="border:1px solid black; padding:5px;"></td>
+                    </tr>
+                `;
+            });
+
+            const html = `
+                <div style="border: 3px double black; padding: 20px; height: 100%;">
+                    <div style="text-align:center; margin-bottom:24px; border-bottom: 2px solid black; padding-bottom: 10px;">
+                        <h2 style="margin:0; font-weight:bold; font-size:16pt;">KARTU KENDALI KEDISIPLINAN</h2>
+                        <p style="margin:6px 0 0; text-transform:uppercase; font-size:10pt; letter-spacing:0.18em;">Instrumen Monitoring Harian Siswa Dalam Pembinaan</p>
+                    </div>
+
+                    <table style="width:100%; margin-bottom: 20px;">
+                        <tr>
+                            <td><b>Nama:</b> ${document.getElementById('c-name').value || ".................."}</td>
+                            <td style="text-align:right;"><b>Minggu Ke:</b> ......</td>
+                        </tr>
+                        <tr>
+                            <td><b>Ekskul:</b> ${document.getElementById('c-ekskul').value || ".................."}</td>
+                            <td style="text-align:right;"><b>Kelas:</b> ${document.getElementById('c-class').value || "..."}</td>
+                        </tr>
+                    </table>
+
+                    <table style="width:100%; border-collapse: collapse; margin-bottom: 20px;">
+                        <tr style="background-color:#f0f0f0;">
+                            <th style="border:1px solid black; padding:8px;">HARI</th>
+                            <th style="border:1px solid black; padding:8px;">STATUS KEHADIRAN</th>
+                            <th style="border:1px solid black; padding:8px; width: 30%;">PARAF GURU PIKET</th>
+                        </tr>
+                        ${rows}
+                    </table>
+
+                    <div style="margin-top: 20px;">
+                        <p style="font-weight:bold; margin-bottom:5px;">REKOMENDASI WALI KELAS (Diisi Sabtu):</p>
+                        ${decisionHTML}
+                    </div>
+
+                    <div style="margin-top: 40px; border-top: 2px dashed black; padding-top: 10px;">
+                        <p style="text-align:center; font-size:10pt; margin-bottom: 10px;">-- POTONG DI SINI (Arsip untuk Pelatih/Pembina) --</p>
+                        <div style="border: 1px solid black; padding: 10px; background-color: #fffff0;">
+                            <table style="width:100%; border:none;">
+                                <tr>
+                                    <td><b>SLIP IZIN KEGIATAN</b><br>Nama: ${document.getElementById('c-name').value || "..."}</td>
+                                    <td style="text-align:right; font-size:14pt; font-weight:bold;">${hasAlpa ? "DITOLAK ⛔" : "DITERIMA ✅"}</td>
+                                </tr>
+                            </table>
+                            <p style="font-size:10pt; margin-top:5px;">Ttd Wali Kelas: ....................</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('doc-body').innerHTML = html;
+        }
+
+        // 3. PASSIVE RENDERER
+        function renderPassive() {
+            state.passive.name = document.getElementById('p-name').value || "..........................";
+            state.passive.nis = document.getElementById('p-nis').value || "..........";
+            state.passive.class = document.getElementById('p-class').value || "..........";
+            state.passive.duration = document.getElementById('p-duration').value;
+            
+            // Get Checkboxes
+            const checks = document.querySelectorAll('.p-check:checked');
+            let causeList = "";
+            let priority = "Ringan (Preventif)";
+            let priorityColor = "green";
+
+            if (checks.length > 3) { priority = "TINGGI (Butuh Referal)"; priorityColor = "red"; }
+            else if (checks.length > 1) { priority = "SEDANG (Kuratif)"; priorityColor = "orange"; }
+
+            if (checks.length === 0) {
+                causeList = "<li>(Belum ada diagnosa dipilih)</li>";
+            } else {
+                checks.forEach(c => {
+                    causeList += `<li style="margin-bottom:5px;">${c.parentElement.textContent}</li>`;
+                });
+            }
+
+            const html = `
+                <div style="text-align:center; margin-bottom:24px;">
+                    <h2 style="margin:0; font-weight:bold; text-decoration:underline; font-size:14pt;">INSTRUMEN IDENTIFIKASI & LAYANAN BK</h2>
+                    <p style="margin:4px 0 0; font-weight:bold;">(PENANGANAN SISWA PASIF/RETREAT)</p>
+                    <p style="margin:4px 0 0;">Kode Dokumen: BK/Identifikasi/005/${new Date().getFullYear()}</p>
+                </div>
+
+                <table style="width:100%; margin-bottom:24px; border:1px solid black; border-collapse:collapse;">
+                    <tr>
+                        <td style="border:1px solid black; padding:8px; width:25%; background-color:#f0f0f0; font-weight:bold;">Nama Siswa</td>
+                        <td style="border:1px solid black; padding:8px;">${state.passive.name}</td>
+                        <td style="border:1px solid black; padding:8px; width:15%; background-color:#f0f0f0; font-weight:bold;">Kelas</td>
+                        <td style="border:1px solid black; padding:8px;">${state.passive.class}</td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid black; padding:8px; background-color:#f0f0f0; font-weight:bold;">NIS / NISN</td>
+                        <td style="border:1px solid black; padding:8px;">${state.passive.nis}</td>
+                        <td style="border:1px solid black; padding:8px; background-color:#f0f0f0; font-weight:bold;">Prioritas</td>
+                        <td style="border:1px solid black; padding:8px; color:${priorityColor}; font-weight:bold;">${priority}</td>
+                    </tr>
+                </table>
+
+                <div style="margin-bottom:20px;">
+                    <h3 style="font-weight:bold; background-color:#e0e0e0; padding:5px; border:1px solid black;">A. DIAGNOSIS AKAR MASALAH</h3>
+                    <div style="border:1px solid black; border-top:none; padding:15px;">
+                        <p style="margin-bottom:10px;">Berdasarkan observasi dan wawancara, teridentifikasi hambatan sebagai berikut:</p>
+                        <ul style="list-style-type:disc; margin-left:20px;">
+                            ${causeList}
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="margin-bottom:20px;">
+                    <h3 style="font-weight:bold; background-color:#e0e0e0; padding:5px; border:1px solid black;">B. RENCANA LAYANAN BIMBINGAN</h3>
+                    <div style="border:1px solid black; border-top:none; padding:15px;">
+                        <table style="width:100%; border-collapse:collapse;">
+                            <tr>
+                                <td style="padding:5px; vertical-align:top; font-weight:bold;">1. Layanan Dasar</td>
+                                <td style="padding:5px;">: Konseling Individu dan Penguatan Motivasi Belajar.</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px; vertical-align:top; font-weight:bold;">2. Layanan Responsif</td>
+                                <td style="padding:5px;">: Kunjungan Rumah (Home Visit) untuk kolaborasi dengan Orang Tua.</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px; vertical-align:top; font-weight:bold;">3. Dukungan Sistem</td>
+                                <td style="padding:5px;">: Pendampingan Wali Kelas & Tutor Sebaya.</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <table style="width:100%; margin-top:18px; text-align:center; border:none; border-collapse:collapse;">
+                    <tr>
+                        <td style="width:33.33%; border:none; padding:0;">
+                            <p style="margin:0;">Orang Tua/Wali</p>
+                            <p style="margin:0; line-height:22pt; mso-line-height-rule:exactly;">&nbsp;</p>
+                            <p style="margin:0; border-top: 1px solid black; padding-top: 5px;">( .......................... )</p>
+                        </td>
+                        <td style="width:33.33%; border:none; padding:0;">
+                            <p style="margin:0;">Guru BK / Konselor</p>
+                            <p style="margin:0; line-height:22pt; mso-line-height-rule:exactly;">&nbsp;</p>
+                            <p style="margin:0; border-top: 1px solid black; padding-top: 5px;">( .......................... )</p>
+                        </td>
+                        <td style="width:33.33%; border:none; padding:0;">
+                            <p style="margin:0;">Wali Kelas</p>
+                            <p style="margin:0; line-height:22pt; mso-line-height-rule:exactly;">&nbsp;</p>
+                            <p style="margin:0; border-top: 1px solid black; padding-top: 5px;">( .......................... )</p>
+                        </td>
+                    </tr>
+                </table>
+            `;
+            document.getElementById('doc-body').innerHTML = html;
+        }
+
+        // 4. COACH RENDERER (NEW)
+        function renderCoach() {
+            state.coach.ekskul = document.getElementById('co-ekskul').value || "..................";
+            state.coach.date = document.getElementById('co-date').value || "..................";
+            state.coach.materi = document.getElementById('co-materi').value || "-";
+            
+            // Get student inputs
+            let studentRows = "";
+            const inputs = document.querySelectorAll('.co-student-input');
+            inputs.forEach((inp, idx) => {
+                const val = inp.value;
+                if(val) {
+                    studentRows += `
+                    <tr>
+                        <td style="border:1px solid black; padding:5px; text-align:center;">${idx + 1}</td>
+                        <td style="border:1px solid black; padding:5px;">${val}</td>
+                        <td style="border:1px solid black; padding:5px; text-align:center;">H / I / S / A</td>
+                        <td style="border:1px solid black; padding:5px;"></td>
+                    </tr>`;
+                }
+            });
+            
+            // Fill empty rows if needed
+            for(let i=0; i< (5 - (studentRows.match(/<tr>/g) || []).length); i++) {
+                 studentRows += `
+                    <tr>
+                        <td style="border:1px solid black; padding:5px; text-align:center;">${(studentRows.match(/<tr>/g) || []).length + 1}</td>
+                        <td style="border:1px solid black; padding:5px;"></td>
+                        <td style="border:1px solid black; padding:5px; text-align:center;">H / I / S / A</td>
+                        <td style="border:1px solid black; padding:5px;"></td>
+                    </tr>`;
+            }
+
+            const html = `
+                <div style="text-align:center; margin-bottom:24px;">
+                    <h2 style="margin:0; font-weight:bold; text-decoration:underline; font-size:14pt;">JURNAL KEGIATAN & DAFTAR HADIR EKSTRAKURIKULER</h2>
+                    <p style="margin:4px 0 0;">Semester Genap Tahun Pelajaran ${new Date().getFullYear()}/${new Date().getFullYear()+1}</p>
+                </div>
+
+                <table style="width:100%; margin-bottom:24px; border:none;">
+                    <tr><td style="width:150px; font-weight:bold;">Nama Ekskul</td><td>: ${state.coach.ekskul}</td></tr>
+                    <tr><td style="font-weight:bold;">Hari / Tanggal</td><td>: ${state.coach.date}</td></tr>
+                    <tr><td style="font-weight:bold;">Tempat Latihan</td><td>: Lapangan/Aula MAN Banggai</td></tr>
+                </table>
+
+                <div style="margin-bottom:20px;">
+                    <h3 style="font-weight:bold; background-color:#e0e0e0; padding:5px; border:1px solid black;">A. MATERI KEGIATAN</h3>
+                    <div style="border:1px solid black; border-top:none; padding:15px; min-height:80px;">
+                        ${state.coach.materi}
+                    </div>
+                </div>
+
+                <div style="margin-bottom:20px;">
+                    <h3 style="font-weight:bold; background-color:#e0e0e0; padding:5px; border:1px solid black;">B. DAFTAR HADIR SISWA</h3>
+                    <table style="width:100%; border-collapse:collapse;">
+                        <thead>
+                            <tr style="background-color:#f0f0f0;">
+                                <th style="border:1px solid black; padding:5px; width:5%;">No</th>
+                                <th style="border:1px solid black; padding:5px; width:45%;">Nama Siswa</th>
+                                <th style="border:1px solid black; padding:5px; width:20%;">Status (Lingkari)</th>
+                                <th style="border:1px solid black; padding:5px; width:30%;">Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${studentRows}
+                            <tr>
+                                <td style="border:1px solid black; padding:5px; text-align:center;">...</td>
+                                <td style="border:1px solid black; padding:5px; text-align:center; font-style:italic;" colspan="3">(Lanjutkan pada lampiran jika perlu)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="margin-bottom:20px;">
+                    <h3 style="font-weight:bold; background-color:#e0e0e0; padding:5px; border:1px solid black;">C. CATATAN / EVALUASI PELATIH</h3>
+                    <div style="border:1px solid black; border-top:none; padding:15px; min-height:60px;">
+                        <p style="color:#aaa;">Catatan tentang kedisiplinan, kemajuan siswa, atau insiden khusus...</p>
+                    </div>
+                </div>
+
+                <table style="width:100%; margin-top:18px; text-align:center; border:none; border-collapse:collapse;">
+                    <tr>
+                        <td style="width:50%; border:none; padding:0;">
+                            <table style="width:100%; border:none; border-collapse:collapse;">
+                                <tr>
+                                    <td style="border:none; padding:0;">
+                                        Mengetahui,<br>Waka Kesiswaan
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none; padding:0; height:1.6cm;">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none; padding:0; border-top:1px solid #000; padding-top:5px;">( .......................... )</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td style="width:50%; border:none; padding:0;">
+                            <table style="width:100%; border:none; border-collapse:collapse;">
+                                <tr>
+                                    <td style="border:none; padding:0;">
+                                        Banggai, ..........................<br>Guru/Pelatih Ekskul
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none; padding:0; height:1.6cm;">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none; padding:0; border-top:1px solid #000; padding-top:5px;">( .......................... )</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            `;
+            document.getElementById('doc-body').innerHTML = html;
+        }
+
+        // --- EXPORT FUNCTION ---
+        async function exportToWord() {
+            const node = document.getElementById('paper-content');
+            const cloned = node.cloneNode(true);
+
+            // Word often misbehaves with fixed height/min-height on DIV/P; strip them
+            cloned.querySelectorAll('div[style], p[style]').forEach((el) => {
+                const style = el.getAttribute('style');
+                if (!style) return;
+                const cleaned = style
+                    .split(';')
+                    .map(s => s.trim())
+                    .filter(Boolean)
+                    .filter((decl) => {
+                        const prop = decl.split(':')[0]?.trim()?.toLowerCase();
+                        return prop !== 'min-height' && prop !== 'height';
+                    })
+                    .join('; ');
+                el.setAttribute('style', cleaned ? (cleaned + ';') : '');
+            });
+
+            // Embed logo as data URL so Word always renders it
+            const logo = cloned.querySelector('.kop-logo');
+            if (logo) {
+                let dataUrl = '';
+                try {
+                    const res = await fetch('https://man1banggai.sch.id/sim_akad/logo-kemenag.png', { cache: 'no-store' });
+                    if (res.ok) {
+                        const blob = await res.blob();
+                        dataUrl = await new Promise((resolve, reject) => {
+                            const reader = new FileReader();
+                            reader.onload = () => resolve(reader.result);
+                            reader.onerror = reject;
+                            reader.readAsDataURL(blob);
+                        });
+                        logo.setAttribute('src', dataUrl);
+                    }
+                } catch (_) {
+                    // ignore; fall back to existing src
+                }
+
+                // Force consistent sizing for Word
+                logo.setAttribute('width', '60');
+                logo.setAttribute('height', '60');
+                logo.style.width = '48pt';
+                logo.style.height = '48pt';
+                logo.style.display = 'block';
+            }
+
+            const content = cloned.innerHTML;
+            let title = 'Dokumen_Siswa';
+            if(state.activeTab === 'contract') title = 'Kontrak_Komitmen_' + state.contract.name;
+            if(state.activeTab === 'card') title = 'Kartu_Kendali_' + state.contract.name;
+            if(state.activeTab === 'passive') title = 'Asesmen_BK_' + state.passive.name;
+            if(state.activeTab === 'coach') title = 'Jurnal_Ekskul_' + state.coach.ekskul;
+            
+            // Minimalist HTML wrapper for Word to interpret styles correctly
+            const preHtml = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+            <head><meta charset='utf-8'><title>Export HTML To Doc</title>
+            <style>
+                @page { size: A4; margin: 2.54cm; }
+                body { font-family: 'Times New Roman', serif; font-size: 12pt; line-height: 1.15; color: #000; }
+                table { border-collapse: collapse; width: 100%; }
+                td, th { vertical-align: top; }
+
+                /* Reduce Word auto paragraph spacing */
+                p { margin: 0 !important; padding: 0 !important; mso-margin-top-alt: 0pt; mso-margin-bottom-alt: 0pt; }
+
+                .kop-header { border-bottom: 2px double black; padding-bottom:10px; margin-bottom:20px; }
+                .kop-table { width: 100%; border-collapse: collapse; }
+                .kop-table td, .kop-table th { border: none !important; padding: 0 !important; vertical-align: middle !important; }
+                /* Use physical units for Word to prevent oversized logo */
+                .kop-col-logo { width: 2.0cm; }
+                .kop-col-spacer { width: 2.0cm; }
+                .kop-logo { display: block; width: 1.8cm; height: 1.8cm; }
+                .kop-text { text-align: center; }
+            </style>
+            </head><body>`;
+            const postHtml = "</body></html>";
+            
+            const html = preHtml + content + postHtml;
+
+            const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+
+            const downloadLink = document.createElement('a');
+            document.body.appendChild(downloadLink);
+
+            if (navigator.msSaveOrOpenBlob) {
+                navigator.msSaveOrOpenBlob(blob, title + '.doc');
+            } else {
+                const url = URL.createObjectURL(blob);
+                downloadLink.href = url;
+                downloadLink.download = title + '.doc';
+                downloadLink.click();
+                setTimeout(() => URL.revokeObjectURL(url), 2000);
+            }
+
+            document.body.removeChild(downloadLink);
+        }
+
+        // Run Init
+        window.onload = init;
+
+    </script>
+</body>
+</html>

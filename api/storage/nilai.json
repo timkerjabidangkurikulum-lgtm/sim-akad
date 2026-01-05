@@ -1,0 +1,66 @@
+{
+    "akad1": [
+        {
+            "id": "1766915047_ae37580c",
+            "mapel": "al quran hadits",
+            "kelas": "X A",
+            "kompetensi": "Cinta Allah",
+            "tanggal": "2025-12-28",
+            "status": "Draft",
+            "students": [
+                {
+                    "id": "1766915026503",
+                    "name": "Aira",
+                    "nis": "54356",
+                    "score": 89,
+                    "note": "baik"
+                }
+            ],
+            "updatedAt": "2025-12-28T10:44:40+01:00",
+            "createdAt": "2025-12-28T10:44:07+01:00"
+        }
+    ],
+    "akad6": [
+        {
+            "id": "1766962371_896ee879",
+            "mapel": "alquran hadis",
+            "kelas": "XII D",
+            "kompetensi": "Keutamaan Puasa",
+            "tanggal": "2025-12-28",
+            "status": "Terkirim",
+            "students": [
+                {
+                    "id": "1766962357833",
+                    "name": "Abdilah",
+                    "nis": "64646",
+                    "score": 80,
+                    "note": "baik"
+                }
+            ],
+            "updatedAt": "2025-12-28T23:52:51+01:00",
+            "createdAt": "2025-12-28T23:52:51+01:00"
+        }
+    ],
+    "akad11": [
+        {
+            "id": "1766962921_a2e29b22",
+            "mapel": "ski",
+            "kelas": "x",
+            "sumber": "Ulangan Harian",
+            "kompetensi": "perang uhud",
+            "tanggal": "2025-12-28",
+            "status": "Draft",
+            "students": [
+                {
+                    "id": "1766962908743",
+                    "name": "abdilah",
+                    "nis": "4242424",
+                    "score": 87,
+                    "note": "baik"
+                }
+            ],
+            "updatedAt": "2025-12-29T00:02:02+01:00",
+            "createdAt": "2025-12-29T00:02:02+01:00"
+        }
+    ]
+}

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Perencanaan Kokurikuler Deep Learning dan KBC - MAN Banggai</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="data.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-container">
+                                <!-- Letakkan logo madrasah Anda di: public/kokurikuler/logo-madrasah.png.
+                                         Jika belum ada, otomatis fallback ke /logo-kemenag.png (root public/). -->
+                                <img
+                                    src="logo-madrasah.png"
+                                    alt="Logo Madrasah"
+                                    class="logo"
+                                    onerror="this.onerror=null;this.src='../logo-kemenag.png';"
+                                >
+            </div>
+            <div class="header-text">
+                <h1>APLIKASI PERENCANAAN KOKURIKULER</h1>
+                <div class="subtitle">Integrasi Deep Learning dan Kurikulum Berbasis Cinta</div>
+                <div class="subtitle-small">Madrasah Aliyah Negeri Banggai</div>
+            </div>
+            <div class="auth-buttons">
+                <div id="authStatus" class="auth-status">
+                    <span id="authUserText"></span>
+                </div>
+                <div id="authForms">
+                    <div class="auth-group">
+                        <input type="text" id="usernameReg" placeholder="Username baru" class="auth-input">
+                        <input type="password" id="passwordReg" placeholder="Password" class="auth-input">
+                        <button type="button" onclick="handleRegistrasi()" class="btn-registrasi">Registrasi</button>
+                    </div>
+                    <div class="auth-group">
+                        <input type="text" id="usernameLogin" placeholder="Username" class="auth-input">
+                        <input type="password" id="passwordLogin" placeholder="Password" class="auth-input">
+                        <button type="button" onclick="handleLogin()" class="btn-login">Login</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div id="lockMessage" class="lock-message">
+            🔒 Silakan registrasi atau login terlebih dahulu untuk menggunakan aplikasi perencanaan kokurikuler ini.
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Input Section 1 -->
+            <div class="input-section">
+                <h2 class="section-title">Informasi Dasar &amp; Tema</h2>
+                
+                <label for="namaMadrasah">Nama Madrasah</label>
+                <input type="text" id="namaMadrasah" class="form-input" placeholder="Contoh: MAN Banggai">
+                
+                <label for="fase">Fase</label>
+                <select id="fase" class="form-select">
+                    <option value="">Pilih Fase</option>
+                    <option value="A">Fase A (Kelas I-II)</option>
+                    <option value="B">Fase B (Kelas III-IV)</option>
+                    <option value="C">Fase C (Kelas V-VI)</option>
+                    <option value="D">Fase D (Kelas VII-IX)</option>
+                    <option value="E">Fase E (Kelas X)</option>
+                    <option value="F">Fase F (Kelas XI-XII)</option>
+                </select>
+                
+                <label for="kelas">Kelas</label>
+                <input type="text" id="kelas" class="form-input" placeholder="Contoh: X IPA 1, XI IPS 2">
+                
+                <label for="tahunAjaran">Tahun Ajaran</label>
+                <input type="text" id="tahunAjaran" class="form-input" placeholder="2025/2026">
+            </div>
+
+            <!-- Input Section 2 -->
+            <div class="input-section">
+                <h2 class="section-title">Kerangka Deep Learning &amp; KBC</h2>
+                
+                <label for="tema">Tema Kokurikuler</label>
+                <select id="tema" class="form-select">
+                    <option value="">Pilih Tema</option>
+                    <option value="Jati Diri dan Kebangsaan">Jati Diri dan Kebangsaan</option>
+                    <option value="Kepemimpinan &amp; Keterlibatan Sosial">Kepemimpinan &amp; Keterlibatan Sosial</option>
+                    <option value="Kewirausahaan dan Kearifan Lokal">Kewirausahaan dan Kearifan Lokal</option>
+                    <option value="Lingkungan, Energi &amp; Keseimbangan Alam">Lingkungan, Energi &amp; Keseimbangan Alam</option>
+                    <option value="Literasi, Bahasa, dan Kebudayaan">Literasi, Bahasa, dan Kebudayaan</option>
+                    <option value="Sains, Teknologi, dan Rekayasa Dasar">Sains, Teknologi, dan Rekayasa Dasar</option>
+                    <option value="Digital &amp; Kecerdasan Buatan">Digital &amp; Kecerdasan Buatan</option>
+                    <option value="Kemandirian, Etika, dan Profesi">Kemandirian, Etika, dan Profesi</option>
+                    <option value="Kesehatan dan Bioteknologi">Kesehatan dan Bioteknologi</option>
+                </select>
+                
+                <label for="pokokBahasan">Pokok Bahasan</label>
+                <select id="pokokBahasan" class="form-select" disabled>
+                    <option value="">Pilih tema terlebih dahulu</option>
+                </select>
+                
+                <label for="mapelKolaboratif">Mata Pelajaran Kolaboratif</label>
+                <select id="mapelKolaboratif" class="form-select" disabled>
+                    <option value="">Pilih tema terlebih dahulu</option>
+                </select>
+                
+                <label for="topikKBC">Topik KBC (Kurikulum Berbasis Cinta)</label>
+                <select id="topikKBC" class="form-select" disabled>
+                    <option value="">Pilih tema terlebih dahulu</option>
+                </select>
+                
+                <label for="dimensiProfilLulusan">Dimensi Profil Lulusan (DPL)</label>
+                <select id="dimensiProfilLulusan" class="form-select" disabled multiple>
+                    <option value="">Pilih tema terlebih dahulu</option>
+                </select>
+                <p style="font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 5px;">💡 Gunakan Ctrl+Click untuk memilih lebih dari satu</p>
+                
+                <label for="strategi">Strategi Deep Learning</label>
+                <select id="strategi" class="form-select">
+                    <option value="">Pilih Strategi</option>
+                    <option value="Problem-Based Learning (PBL)">Problem-Based Learning (PBL)</option>
+                    <option value="Project-Based Learning (PjBL)">Project-Based Learning (PjBL)</option>
+                    <option value="Collaborative Learning">Collaborative Learning</option>
+                    <option value="Critical Thinking Activities">Critical Thinking Activities</option>
+                    <option value="Kombinasi Strategi">Kombinasi Strategi</option>
+                </select>
+                
+                <label for="alokasi">Alokasi Waktu</label>
+                <input type="text" id="alokasi" class="form-input" placeholder="Contoh: 10 JP (jam pelajaran) dalam 1 semester">
+            </div>
+
+            <!-- Input Section 3 -->
+            <div class="input-section">
+                <h2 class="section-title">Detail Pembelajaran</h2>
+                
+                <label for="tujuan">Tujuan Pembelajaran Kokurikuler</label>
+                <textarea id="tujuan" class="form-textarea" rows="6" placeholder="Pilih Tema dan Pokok Bahasan terlebih dahulu" disabled></textarea>
+                <p style="font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 5px;">💡 Tujuan akan terisi otomatis sesuai Tema &amp; Pokok Bahasan (bisa Anda sunting bila perlu).</p>
+                
+                <label for="kegiatan">Aktivitas Pembelajaran Utama</label>
+                <textarea id="kegiatan" class="form-textarea" rows="10" placeholder="Pilih Tema dan Pokok Bahasan terlebih dahulu" disabled></textarea>
+                <p style="font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 5px;">💡 Instruksi aktivitas akan terisi otomatis sesuai Tema &amp; Pokok Bahasan (masih bisa Anda sunting bila perlu).</p>
+                
+                <label for="integrasiNilai">Integrasi Nilai-Nilai KBC</label>
+                <textarea id="integrasiNilai" class="form-textarea" rows="6" placeholder="Pilih Tema dan Pokok Bahasan terlebih dahulu" disabled></textarea>
+                <p style="font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 5px;">💡 Integrasi nilai KBC akan terisi otomatis dan terhubung dengan aktivitas pembelajaran.</p>
+                
+                <label for="penilaian">Asesmen/Penilaian Holistik</label>
+                <textarea id="penilaian" class="form-textarea" rows="8" placeholder="Pilih Tema dan Pokok Bahasan terlebih dahulu" disabled></textarea>
+                <p style="font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 5px;">💡 Asesmen disusun otomatis (diagnostik–formatif–sumatif/produk) dan muncul juga dalam tabel pada preview.</p>
+                
+                <label for="catatan">Catatan/Keterangan Tambahan</label>
+                <textarea id="catatan" class="form-textarea" rows="3" placeholder="Tambahkan catatan atau keterangan khusus jika diperlukan"></textarea>
+            </div>
+
+            <!-- Preview Section -->
+            <div class="preview-section">
+                <h2 class="section-title">Preview Dokumen</h2>
+                
+                <div class="preview-content" id="previewContent">
+                    <div class="preview-placeholder">
+                        Klik tombol "Generate Preview Rencana" untuk melihat hasil perencanaan Anda
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button type="button" class="btn-info" onclick="openPanduan()">📚 Baca Panduan Deep Learning &amp; KBC</button>
+                    <button id="btnGenerate" type="button" class="btn-generate">Generate Preview Rencana</button>
+                    <button id="btnDownload" type="button" class="btn-download" disabled>⬇️ Download Dokumen (Word)</button>
+                </div>
+            </div>
+        </div>
+        <footer class="page-footer">
+            <span>#akademikmanbanggai2025</span>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

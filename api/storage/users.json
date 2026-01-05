@@ -1,0 +1,338 @@
+[
+    {
+        "username": "admin",
+        "password": "admin123",
+        "role": "admin",
+        "name": "Admin SIM-AKAD"
+    },
+    {
+        "username": "akad1",
+        "password": "akad1",
+        "role": "guru",
+        "name": "Muhammad Basri, S.Pd., M.Pd"
+    },
+    {
+        "username": "akad2",
+        "password": "akad2",
+        "role": "guru",
+        "name": "Hasran S. Abadja, S.Ag., MH"
+    },
+    {
+        "username": "akad3",
+        "password": "akad3",
+        "role": "guru",
+        "name": "Muhammad Yusuf, S.Pd.I"
+    },
+    {
+        "username": "akad4",
+        "password": "akad4",
+        "role": "guru",
+        "name": "Sukriadi, S.Pd.I"
+    },
+    {
+        "username": "akad5",
+        "password": "akad5",
+        "role": "guru",
+        "name": "Ika Rahayu, S.Pd"
+    },
+    {
+        "username": "akad6",
+        "password": "akad6",
+        "role": "guru",
+        "name": "Fandi Idham, S.Pd.I"
+    },
+    {
+        "username": "akad7",
+        "password": "akad7",
+        "role": "guru",
+        "name": "Eko Purwanto, S.Q"
+    },
+    {
+        "username": "akad8",
+        "password": "akad8",
+        "role": "guru",
+        "name": "Sudirman Madukalang, S.Pd.I"
+    },
+    {
+        "username": "akad9",
+        "password": "akad9",
+        "role": "guru",
+        "name": "Harun Mauke, S.Pd.I"
+    },
+    {
+        "username": "akad10",
+        "password": "akad10",
+        "role": "guru",
+        "name": "Idhar Ladjihan, S.Pd.I"
+    },
+    {
+        "username": "akad11",
+        "password": "akad11",
+        "role": "guru",
+        "name": "Farha, S.Pd.I"
+    },
+    {
+        "username": "akad12",
+        "password": "akad12",
+        "role": "guru",
+        "name": "Lisanwati Hamzah, S.Pd.I"
+    },
+    {
+        "username": "akad13",
+        "password": "akad13",
+        "role": "guru",
+        "name": "Lilik Yulianti, S.Pd.I"
+    },
+    {
+        "username": "akad14",
+        "password": "akad14",
+        "role": "guru",
+        "name": "Habsyiah Alhabsyi, S.Pd."
+    },
+    {
+        "username": "akad15",
+        "password": "akad15",
+        "role": "guru",
+        "name": "Abdul Razak, S.Pd"
+    },
+    {
+        "username": "akad16",
+        "password": "akad16",
+        "role": "guru",
+        "name": "H. Awaluddin, S.Pd"
+    },
+    {
+        "username": "akad17",
+        "password": "akad17",
+        "role": "guru",
+        "name": "Hj. Siti Aisyah, S.S., M.Pd"
+    },
+    {
+        "username": "akad18",
+        "password": "akad18",
+        "role": "guru",
+        "name": "Wiwik Widyawati, S.Pd"
+    },
+    {
+        "username": "akad19",
+        "password": "akad19",
+        "role": "guru",
+        "name": "Nur Aini Labani, S.Pd"
+    },
+    {
+        "username": "akad20",
+        "password": "akad20",
+        "role": "guru",
+        "name": "Claudia Arivana, S.Pd"
+    },
+    {
+        "username": "akad21",
+        "password": "akad21",
+        "role": "guru",
+        "name": "Fitriah Halim, S.Pd"
+    },
+    {
+        "username": "akad22",
+        "password": "akad22",
+        "role": "guru",
+        "name": "Yusra Abdullah, S.Pd"
+    },
+    {
+        "username": "akad23",
+        "password": "akad23",
+        "role": "guru",
+        "name": "Nur’aisa, S.Pd"
+    },
+    {
+        "username": "akad24",
+        "password": "akad24",
+        "role": "guru",
+        "name": "Betty Ardianrini, S.Si"
+    },
+    {
+        "username": "akad25",
+        "password": "akad25",
+        "role": "guru",
+        "name": "Nurahnun, S.Pd"
+    },
+    {
+        "username": "akad26",
+        "password": "akad26",
+        "role": "guru",
+        "name": "Reni Wirawati Hasan, S.Pd"
+    },
+    {
+        "username": "akad27",
+        "password": "akad27",
+        "role": "guru",
+        "name": "Hartati, S.Pd.I"
+    },
+    {
+        "username": "akad28",
+        "password": "akad28",
+        "role": "guru",
+        "name": "Ferry Tjahya Kusnadi, S.Pd"
+    },
+    {
+        "username": "akad29",
+        "password": "akad29",
+        "role": "guru",
+        "name": "Arlina Mointi, S.Pd"
+    },
+    {
+        "username": "akad30",
+        "password": "akad30",
+        "role": "guru",
+        "name": "Hj. Mariani Mustamin, S.Pd"
+    },
+    {
+        "username": "akad31",
+        "password": "akad31",
+        "role": "guru",
+        "name": "Karsia Malotes, S.Pd"
+    },
+    {
+        "username": "akad32",
+        "password": "akad32",
+        "role": "guru",
+        "name": "Ramlan Labay, S.Pd., M.Pd"
+    },
+    {
+        "username": "akad33",
+        "password": "akad33",
+        "role": "guru",
+        "name": "Ibrahim, S.Pd"
+    },
+    {
+        "username": "akad34",
+        "password": "akad34",
+        "role": "guru",
+        "name": "Rizal, S.Pd"
+    },
+    {
+        "username": "akad36",
+        "password": "akad36",
+        "role": "guru",
+        "name": "Nurhaeda, S.Pd"
+    },
+    {
+        "username": "akad37",
+        "password": "akad37",
+        "role": "guru",
+        "name": "Nurialla MS. Mappa, S.Pd"
+    },
+    {
+        "username": "akad38",
+        "password": "akad38",
+        "role": "guru",
+        "name": "Zikran Lawenga, S.Pd"
+    },
+    {
+        "username": "akad39",
+        "password": "akad39",
+        "role": "guru",
+        "name": "Bukhori Fillalhi, S.Pd"
+    },
+    {
+        "username": "akad40",
+        "password": "akad40",
+        "role": "guru",
+        "name": "Sandra Nova Praditha, S.Pd"
+    },
+    {
+        "username": "akad42",
+        "password": "akad42",
+        "role": "guru",
+        "name": "Muhammad Syawal, S.Pd"
+    },
+    {
+        "username": "akad43",
+        "password": "akad43",
+        "role": "guru",
+        "name": "Ida Priati Matiro, S.Pd"
+    },
+    {
+        "username": "akad44",
+        "password": "akad44",
+        "role": "guru",
+        "name": "Guru 44"
+    },
+    {
+        "username": "akad45",
+        "password": "akad45",
+        "role": "guru",
+        "name": "Guru 45"
+    },
+    {
+        "username": "akad46",
+        "password": "akad46",
+        "role": "guru",
+        "name": "Guru 46"
+    },
+    {
+        "username": "akad47",
+        "password": "akad47",
+        "role": "guru",
+        "name": "Guru 47"
+    },
+    {
+        "username": "akad48",
+        "password": "akad48",
+        "role": "guru",
+        "name": "Guru 48"
+    },
+    {
+        "username": "akad49",
+        "password": "akad49",
+        "role": "guru",
+        "name": "Guru 49"
+    },
+    {
+        "username": "akad50",
+        "password": "akad50",
+        "role": "guru",
+        "name": "Guru 50"
+    },
+    {
+        "username": "demo1",
+        "password": "$2y$10$ckr3XNavjWROvQfKTLKxX.XZT7fX0Fos2D4nQXdj0B6Hmmiyd6qWe",
+        "role": "guru",
+        "name": "demo1"
+    },
+    {
+        "username": "demo2",
+        "password": "$2y$10$e.o.xyIto/8LsK8E9fGEp.oMAhhQFvaOV59d4rdk1K1HUVc8ryYy2",
+        "role": "guru",
+        "name": "demo2"
+    },
+    {
+        "username": "demo3",
+        "password": "$2y$10$i7sW0WOLLs8yk28Aa19ATeUr7AVz4kHzVGQfwolW8mBeYkD/3IxXO",
+        "role": "guru",
+        "name": "demo3"
+    },
+    {
+        "username": "demo4",
+        "password": "$2y$10$Ax/YM6qqTM0cZw21zVhwsOqyPWM0SM/Q85evNbdSyJ4f4/eY1ZwBy",
+        "role": "guru",
+        "name": "demo4"
+    },
+    {
+        "username": "demo5",
+        "password": "$2y$10$uhxt0Te0ibRBGM0cGlIs2.JX4/LM6/5d9Fe4kpWvdJtsyUSYasD.G",
+        "role": "guru",
+        "name": "demo5"
+    },
+    {
+        "username": "manan",
+        "password": "$2y$10$UwXWBlJZJsO.SYMuJQMT1OTsJHRcfq7BiQfkTEu5lYBp//z5zwiuq",
+        "role": "guru",
+        "name": "Abd. Manan M. Usman, S.Pd.I"
+    },
+    {
+        "username": "rahman",
+        "password": "$2y$10$ZCKXwNeDNyaH1jzpb67.0.C60XFQ2ERRFmTMZDLXZLNdYtYfY7jY2",
+        "role": "guru",
+        "name": "Abdul Rahman S. Tatu, S.Pd"
+    }
+]

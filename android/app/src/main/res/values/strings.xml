@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">SIM-AKAD</string>
+    <string name="title_activity_main">SIM-AKAD</string>
+    <string name="package_name">id.man.banggai.simakad</string>
+    <string name="custom_url_scheme">id.man.banggai.simakad</string>
+</resources>

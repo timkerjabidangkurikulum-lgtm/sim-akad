@@ -1,0 +1,45 @@
+{
+    "akad2": [
+        {
+            "id": "1766912382_d1301cc96d9c",
+            "date": "2025-12-30",
+            "kelas": "XB",
+            "mapel": "Ekonomi",
+            "materi": "Siswa secara aktif dalam kelompoknya mencari refrensi tentang sistem ekonomi di dunia dan mencari tahu bagaimana mengatasi perbedaan diantara setiap sistem ekonomi yang ada",
+            "metode": "Discovery learning",
+            "asesmen": "presentasi",
+            "catatan": "kehadiran siswa berpengaruh terhadap hasil pembelajaran kelompok",
+            "tindakLanjut": "tugas lanjutan",
+            "updatedAt": "2025-12-28T09:59:42+01:00",
+            "createdAt": "2025-12-28T09:59:42+01:00"
+        },
+        {
+            "id": "1766911145_3dc1f15e2596",
+            "date": "2025-12-28",
+            "kelas": "X A",
+            "mapel": "Ekonomi",
+            "materi": "setiap kelompok mempresentasikan hasil kerja kelompoknya kemudian kelompok lain memberikan tanggapan atas penyajian materi dari kelompok yang presentsi",
+            "metode": "Diskusi",
+            "asesmen": "tanya jawab",
+            "catatan": "suasana dapat di kendalikan",
+            "tindakLanjut": "tugas lanjutan",
+            "updatedAt": "2025-12-28T09:39:05+01:00",
+            "createdAt": "2025-12-28T09:39:05+01:00"
+        }
+    ],
+    "akad6": [
+        {
+            "id": "1766960209_46fa858237db",
+            "date": "2025-12-29",
+            "kelas": "XII D",
+            "mapel": "ALQUR'AN HADITS",
+            "materi": "menjelaskan tentang keutamaan puasa, baik puasa wajib maupun puasa sunnah",
+            "metode": "keutamaan puasa",
+            "asesmen": "tanya jawab",
+            "catatan": "suasana kelas kondusif",
+            "tindakLanjut": "tugas diskusi",
+            "updatedAt": "2025-12-28T23:16:49+01:00",
+            "createdAt": "2025-12-28T23:16:49+01:00"
+        }
+    ]
+}

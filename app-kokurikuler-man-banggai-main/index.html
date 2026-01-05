@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Perencanaan Kokurikuler Deep Learning dan KBC - MAN Banggai</title>
+    <link rel="stylesheet" href="styles.css?v=2">
+    <script src="data.js?v=2"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-container">
+                <img src="public/images/logo.png" alt="Logo Kementerian Agama" class="logo">
+            </div>
+            <div class="header-text">
+                <h1>APLIKASI PERENCANAAN KOKURIKULER</h1>
+                <div class="subtitle">Integrasi Deep Learning dan Kurikulum Berbasis Cinta</div>
+                <div class="subtitle-small">Madrasah Aliyah Negeri Banggai</div>
+            </div>
+            <div class="auth-buttons">
+                <div id="authStatus" class="auth-status">
+                    <span id="authUserText"></span>
+                    <button type="button" onclick="handleLogout()" class="btn-logout">Logout</button>
+                </div>
+                <div id="authForms">
+                    <div class="auth-group">
+                        <input type="text" id="usernameReg" placeholder="Username baru" class="auth-input">
+                        <input type="password" id="passwordReg" placeholder="Password" class="auth-input">
+                        <button type="button" onclick="handleRegistrasi()" class="btn-registrasi">Registrasi</button>
+                    </div>
+                    <div class="auth-group">
+                        <input type="text" id="usernameLogin" placeholder="Username" class="auth-input">
+                        <input type="password" id="passwordLogin" placeholder="Password" class="auth-input">
+                        <button type="button" onclick="handleLogin()" class="btn-login">Login</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div id="lockMessage" class="lock-message">
+            🔒 Silakan registrasi atau login terlebih dahulu untuk menggunakan aplikasi perencanaan kokurikuler ini.
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Input Section 1 -->
+            <div class="input-section">
+                <h2 class="section-title">Informasi Dasar & Tema</h2>
+                
+                <label for="namaMadrasah">Nama Madrasah</label>
+                <input type="text" id="namaMadrasah" class="form-input" placeholder="Contoh: MAN Banggai">
+                
+                <label for="fase">Fase</label>
+                <select id="fase" class="form-select">
+                    <option value="">Pilih Fase</option>
+                    <option value="A">Fase A (Kelas I-II)</option>
+                    <option value="B">Fase B (Kelas III-IV)</option>
+                    <option value="C">Fase C (Kelas V-VI)</option>
+                    <option value="D">Fase D (Kelas VII-IX)</option>
+                    <option value="E">Fase E (Kelas X)</option>
+                    <option value="F">Fase F (Kelas XI-XII)</option>
+                </select>
+                
+                <label for="kelas">Kelas</label>
+                <input type="text" id="kelas" class="form-input" placeholder="Contoh: X IPA 1, XI IPS 2">
+                
+                <label for="tahunAjaran">Tahun Ajaran</label>
+                <input type="text" id="tahunAjaran" class="form-input" placeholder="2025/2026">
+            </div>
+
+            <!-- Input Section 2 -->
+            <div class="input-section">
+                <h2 class="section-title">Kerangka Deep Learning & KBC</h2>
+                
+                <label for="tema">Tema Kokurikuler</label>
+                <select id="tema" class="form-select">
+                    <option value="">Pilih Tema</option>
+                    <option value="Aku Cinta Alam Ciptaan Allah">Aku Cinta Alam Ciptaan Allah</option>
+                    <option value="Bhineka Tunggal Ika">Bhineka Tunggal Ika</option>
+                    <option value="Bangunlah Jiwa dan Raganya">Bangunlah Jiwa dan Raganya</option>
+                    <option value="Suara Demokrasi">Suara Demokrasi</option>
+                    <option value="Gaya Hidup Berkelanjutan">Gaya Hidup Berkelanjutan</option>
+                    <option value="Teknologi untuk Kemanusiaan">Teknologi untuk Kemanusiaan</option>
+                    <option value="Kewirausahaan Sosial">Kewirausahaan Sosial</option>
+                    <option value="Sistem Tubuh Manusia">Sistem Tubuh Manusia</option>
+                    <option value="Kearifan Lokal dan Agribisnis">Kearifan Lokal dan Agribisnis</option>
+                    <option value="Seni dan Budaya Digital">Seni dan Budaya Digital</option>
+                    <option value="Literasi dan Penguatan Bahasa">Literasi dan Penguatan Bahasa</option>
+                    <option value="Gerakan Filantropi Sosial">Gerakan Filantropi Sosial</option>
+                    <option value="Mitigasi dan Adaptasi Bencana Alam">Mitigasi dan Adaptasi Bencana Alam</option>
+                    <option value="Robot Sederhana & Mekanisme Gerak">Robot Sederhana & Mekanisme Gerak</option>
+                    <option value="Belajar dari Alam dan Ilmu">Belajar dari Alam dan Ilmu</option>
+                    <option value="Sahabat di Sekitar Kita">Sahabat di Sekitar Kita</option>
+                    <option value="Hemat Energi, Wujud Syukur pada Allah">Hemat Energi, Wujud Syukur pada Allah</option>
+                    <option value="Aku dan Profesi di Sekitarku">Aku dan Profesi di Sekitarku</option>
+                    <option value="Berbeda Itu Indah">Berbeda Itu Indah</option>
+                    <option value="Inovasi Daur Ulang di Kampungku">Inovasi Daur Ulang di Kampungku</option>
+                    <option value="Bangga Jadi Anak Indonesia">Bangga Jadi Anak Indonesia</option>
+                    <option value="Teknologi untuk Kebaikan">Teknologi untuk Kebaikan</option>
+                    <option value="Gotong Royong Membangun Sekolahku">Gotong Royong Membangun Sekolahku</option>
+                    <option value="Robot Cerdas & Sensor Lingkungan">Robot Cerdas & Sensor Lingkungan</option>
+                    <option value="Hidup Bersih, Hati Jernih">Hidup Bersih, Hati Jernih</option>
+                    <option value="Menjaga Tradisi, Merangkai Inovasi">Menjaga Tradisi, Merangkai Inovasi</option>
+                    <option value="Berani Jujur Hebat">Berani Jujur Hebat</option>
+                    <option value="Menanam, Merawat, dan Bersyukur">Menanam, Merawat, dan Bersyukur</option>
+                    <option value="Bersahabat dengan Perbedaan">Bersahabat dengan Perbedaan</option>
+                    <option value="Madrasahku Rumah Belajarku yang Bahagia">Madrasahku Rumah Belajarku yang Bahagia</option>
+                    <option value="Bijak Bermedia Digital">Bijak Bermedia Digital</option>
+                    <option value="AI dan Kemanusiaan: Belajar dengan Hati">AI dan Kemanusiaan: Belajar dengan Hati</option>
+                    <option value="Bumi Memanas, Kita Beraksil">Bumi Memanas, Kita Beraksil</option>
+                    <option value="Teknologi Cerdas, Generasi Beretika">Teknologi Cerdas, Generasi Beretika</option>
+                    <option value="Bersuara dengan Akhlak, Berpartisipasi dengan Bijak">Bersuara dengan Akhlak, Berpartisipasi dengan Bijak</option>
+                    <option value="Anti Hoaks & Literasi Politik">Anti Hoaks & Literasi Politik</option>
+                    <option value="Sains Terpadu: Menyelami Rahasia Alam">Sains Terpadu: Menyelami Rahasia Alam</option>
+                    <option value="Eksperimen Sains: Menyelidiki Fenomena Alam">Eksperimen Sains: Menyelidiki Fenomena Alam</option>
+                    <option value="Bioteknologi Sederhana: Manfaat Mikroorganisme">Bioteknologi Sederhana: Manfaat Mikroorganisme</option>
+                    <option value="Kecerdasan Buatan & Eksperimen Algoritma">Kecerdasan Buatan & Eksperimen Algoritma</option>
+                    <option value="Membangun Peradaban: Sains, Sosial, Ekonomi, dan Spiritualitas">Membangun Peradaban: Sains, Sosial, Ekonomi, dan Spiritualitas</option>
+                </select>
+                
+                <label for="pokokBahasan">Pokok Bahasan</label>
+                <select id="pokokBahasan" class="form-select" disabled>
+                    <option value="">Pilih tema terlebih dahulu</option>
+                </select>
+                
+                <label for="mapelKolaboratif">Mata Pelajaran Kolaboratif</label>
+                <select id="mapelKolaboratif" class="form-select" disabled>
+                    <option value="">Pilih tema terlebih dahulu</option>
+                </select>
+                
+                <label for="topikKBC">Topik KBC (Kurikulum Berbasis Cinta)</label>
+                <select id="topikKBC" class="form-select" disabled>
+                    <option value="">Pilih tema terlebih dahulu</option>
+                </select>
+                
+                <label for="dimensiProfilLulusan">Dimensi Profil Lulusan (DPL)</label>
+                <select id="dimensiProfilLulusan" class="form-select" disabled multiple>
+                    <option value="">Pilih tema terlebih dahulu</option>
+                </select>
+                <p style="font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 5px;">💡 Gunakan Ctrl+Click untuk memilih lebih dari satu</p>
+                
+                <label for="strategi">Strategi Deep Learning</label>
+                <select id="strategi" class="form-select">
+                    <option value="">Pilih Strategi</option>
+                    <option value="Problem-Based Learning (PBL)">Problem-Based Learning (PBL)</option>
+                    <option value="Project-Based Learning (PjBL)">Project-Based Learning (PjBL)</option>
+                    <option value="Collaborative Learning">Collaborative Learning</option>
+                    <option value="Critical Thinking Activities">Critical Thinking Activities</option>
+                    <option value="Kombinasi Strategi">Kombinasi Strategi</option>
+                </select>
+                
+                <label for="alokasi">Alokasi Waktu</label>
+                <input type="text" id="alokasi" class="form-input" placeholder="Contoh: 10 JP (jam pelajaran) dalam 1 semester">
+            </div>
+
+            <!-- Input Section 3 -->
+            <div class="input-section">
+                <h2 class="section-title">Detail Pembelajaran</h2>
+                
+                <label for="tujuan">Tujuan Pembelajaran Kokurikuler</label>
+                <select id="tujuan" class="form-select" disabled multiple>
+                    <option value="">Pilih tema terlebih dahulu</option>
+                </select>
+                <p style="font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 5px;">💡 Gunakan Ctrl+Click untuk memilih lebih dari satu</p>
+                
+                <label for="kegiatan">Aktivitas Pembelajaran Utama</label>
+                <select id="kegiatan" class="form-select" disabled multiple>
+                    <option value="">Pilih tema terlebih dahulu</option>
+                </select>
+                <p style="font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 5px;">💡 Gunakan Ctrl+Click untuk memilih lebih dari satu</p>
+                
+                <label for="integrasiNilai">Integrasi Nilai-Nilai KBC</label>
+                <select id="integrasiNilai" class="form-select" disabled multiple>
+                    <option value="">Pilih tema terlebih dahulu</option>
+                </select>
+                <p style="font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 5px;">💡 Gunakan Ctrl+Click untuk memilih lebih dari satu</p>
+                
+                <label for="penilaian">Asesmen/Penilaian Holistik</label>
+                <select id="penilaian" class="form-select" disabled multiple>
+                    <option value="">Pilih tema terlebih dahulu</option>
+                </select>
+                <p style="font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 5px;">💡 Gunakan Ctrl+Click untuk memilih lebih dari satu</p>
+                
+                <label for="catatan">Catatan/Keterangan Tambahan</label>
+                <textarea id="catatan" class="form-textarea" rows="3" placeholder="Tambahkan catatan atau keterangan khusus jika diperlukan"></textarea>
+            </div>
+
+            <!-- Preview Section -->
+            <div class="preview-section">
+                <h2 class="section-title">Preview Dokumen</h2>
+                
+                <div class="preview-content" id="previewContent">
+                    <div class="preview-placeholder">
+                        Klik tombol "Generate Preview Rencana" untuk melihat hasil perencanaan Anda
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button type="button" class="btn-info" onclick="openPanduan()">📚 Baca Panduan Deep Learning & KBC</button>
+                    <button id="btnGenerate" type="button" class="btn-generate">Generate Preview Rencana</button>
+                    <button id="btnDownload" type="button" class="btn-download" disabled>⬇️ Download Dokumen (Word)</button>
+                </div>
+            </div>
+        </div>
+        <footer class="page-footer">
+            <span>#akademikmanbanggai2025</span>
+        </footer>
+    </div>
+
+    <script src="app.js?v=2"></script>
+</body>
+</html>
