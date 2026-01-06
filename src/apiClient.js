@@ -1,3 +1,9 @@
+export function apiUserDelete(username) {
+  return request('users_delete', {
+    method: 'POST',
+    body: JSON.stringify({ username }),
+  });
+}
 // Basis URL API.
 // - Development (npm run dev): pakai Apache lokal
 // - Web produksi: relative ke BASE_URL (mis. '/sim_akad/api/index.php')

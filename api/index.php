@@ -1,3 +1,28 @@
+    case 'users_delete':
+        handle_users_delete();
+        break;
+function handle_users_delete(): void
+{
+    $input = json_input();
+    $username = $input['username'] ?? '';
+    if (!$username || !is_string($username)) {
+        json_error('Username tidak valid');
+    }
+    $users = read_users_all();
+    $found = false;
+    $users = array_filter($users, function ($u) use ($username, &$found) {
+        if (($u['username'] ?? '') === $username) {
+            $found = true;
+            return false;
+        }
+        return true;
+    });
+    if (!$found) {
+        json_error('User tidak ditemukan');
+    }
+    write_users_all(array_values($users));
+    json_response(['success' => true]);
+}
 <?php
 
 require_once __DIR__ . '/config.php';

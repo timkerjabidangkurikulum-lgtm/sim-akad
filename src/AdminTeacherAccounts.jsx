@@ -1,5 +1,21 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { apiUserResetPassword, apiUserUpsert, apiUsersList } from './apiClient.js';
+import { apiUserResetPassword, apiUserUpsert, apiUsersList, apiUserDelete } from './apiClient.js';
+  const deleteGuru = async (username) => {
+    if (!username) return;
+    if (!window.confirm(`Hapus akun guru ${username}? Data tidak bisa dikembalikan!`)) return;
+    setLoading(true);
+    setError('');
+    setNotice('');
+    try {
+      await apiUserDelete(username);
+      setNotice(`Akun ${username} berhasil dihapus.`);
+      await loadAll();
+    } catch (e) {
+      setError(e?.message || 'Gagal menghapus akun');
+    } finally {
+      setLoading(false);
+    }
+  };
 
 export default function AdminTeacherAccounts() {
   const [loading, setLoading] = useState(false);
@@ -249,6 +265,14 @@ export default function AdminTeacherAccounts() {
                           disabled={loading}
                         >
                           Reset Password
+                        </button>
+                        <button
+                          type="button"
+                          className="px-2.5 py-1.5 rounded bg-red-100 hover:bg-red-200 text-red-900"
+                          onClick={() => deleteGuru(u.username)}
+                          disabled={loading}
+                        >
+                          Hapus
                         </button>
                       </div>
                     </td>
